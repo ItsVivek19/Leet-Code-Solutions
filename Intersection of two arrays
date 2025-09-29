@@ -1,0 +1,75 @@
+#include <vector>
+#include <unordered_set>
+#include <algorithm>
+#include <iostream>
+
+class Solution {
+public:
+    /**
+     * Finds the unique intersection of two integer arrays.
+     * * Time Complexity: O(n + m), where n and m are the lengths of nums1 and nums2.
+     * Space Complexity: O(n) for the unordered_set.
+     * * @param nums1 The first integer array.
+     * @param nums2 The second integer array.
+     * @return A vector containing the unique intersection elements.
+     */
+    std::vector<int> intersection(std::vector<int>& nums1, std::vector<int>& nums2) {
+        // 1. Store unique elements of nums1 into a hash set for O(1) average lookup time.
+        // The time to build the set is O(nums1.length).
+        std::unordered_set<int> set1(nums1.begin(), nums1.end());
+        
+        // The result vector
+        std::vector<int> result;
+        
+        // 2. Iterate through nums2
+        for (int num : nums2) {
+            // 3. Check if the element exists in the set (i.e., is in both arrays)
+            if (set1.count(num)) {
+                // If it exists, it's an intersection element. Add it to the result.
+                result.push_back(num);
+                
+                // 4. Remove the element from the set. This is crucial 
+                // to ensure that each element is added only once to the result,
+                // satisfying the "unique" requirement.
+                set1.erase(num);
+            }
+        }
+        
+        return result;
+    }
+};
+
+/*
+// Example Usage (Optional)
+void printVector(const std::vector<int>& vec) {
+    std::cout << "[";
+    for (size_t i = 0; i < vec.size(); ++i) {
+        std::cout << vec[i];
+        if (i < vec.size() - 1) {
+            std::cout << ",";
+        }
+    }
+    std::cout << "]";
+}
+
+int main() {
+    Solution s;
+    std::vector<int> nums1_1 = {1, 2, 2, 1};
+    std::vector<int> nums2_1 = {2, 2};
+    std::vector<int> result1 = s.intersection(nums1_1, nums2_1);
+    std::cout << "Example 1 Input: nums1 = [1,2,2,1], nums2 = [2,2]" << std::endl;
+    std::cout << "Output: ";
+    printVector(result1); // Output: [2]
+    std::cout << "\n-----------------" << std::endl;
+
+    std::vector<int> nums1_2 = {4, 9, 5};
+    std::vector<int> nums2_2 = {9, 4, 9, 8, 4};
+    std::vector<int> result2 = s.intersection(nums1_2, nums2_2);
+    std::cout << "Example 2 Input: nums1 = [4,9,5], nums2 = [9,4,9,8,4]" << std::endl;
+    std::cout << "Output: ";
+    printVector(result2); // Output: [9,4] or [4,9]
+    std::cout << "\n-----------------" << std::endl;
+
+    return 0;
+}
+*/
